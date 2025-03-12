@@ -1,22 +1,22 @@
+/*Variaveis*/
 :root {
     --color-white: #fff;
-    --color-red: #e63636;
     --color-dark1: #181818;
     --color-dark2: #1e1e1e;
-    --color-purple1: #9333ff;
-    --color-purple2: #4b0082;
-    --color-input: ;
-    --color-input-hover: ;
+    --color-purple: #9333ff;
+    --color-purple-hover: #4b0082;
 }
 
+/*Reset*/
 * {
     padding: 0;
     margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    box-sizing: border-box;
 }
 
 body {
     background-color: var(--color-dark1);
-    font-family: Arial, Helvetica, sans-serif;
     color: var(--color-white);
     height: 100vh;
     display: flex;
@@ -24,136 +24,104 @@ body {
     align-items: center;
 }
 
+/*Container*/
+
 .container {
-    position: relative;
     background-color: var(--color-dark2);
-    padding: 32px;
-    width: 35%;
-    min-width: 30%;
+    padding: 22px;
+    width: 90%;
     border-radius: 20px;
 }
-#date{
-    position: absolute;
-    top:-35px;
-    right:0;
+
+/*Header*/
+#header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+}
+
+h1 {
+    font-size: 24px;
+}
+
+#date {
     padding: 5px;
-    width: 200px;
-    background-color: var(--color-dark1);
-    color: white;
     border-radius: 5px;
     border: 0;
-    border-bottom:2px solid var(--color-purple1);
+    border-bottom: 2px solid var(--color-purple);
+    background-color: var(--color-dark1);
+    color: var(--color-white);
 }
-#names{
+
+#date::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+
+/*Info*/
+#info {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-#name,#cpf{
-    width: 300px;
-}
-h1 {
-    text-align:left;
-}
 
-.container form {
+/*Form*/
+
+form {
     display: flex;
-    gap: 20px;
     flex-direction: column;
-}
-
-.span-required {
-    display: none;
-    font-size: 12px;
-    margin: 3px 0 0 1px;
-    color: var(--color-red);
+    gap: 10px;
 }
 
 .inputs {
-    color: var(--color-white);
-    background-color: var(--color-dark1);
-    padding: 8px 5px;
-    border-radius:5px ;
-    /*borda do input */
+    padding: 8px;
+    border-radius: 5px;
     border: 0;
-    border-bottom: 2px solid var(--color-purple1);
+    border-bottom: 2px solid var(--color-purple);
+    background-color: var(--color-dark1);
+    color: var(--color-white);
     width: 100%;
-    box-sizing: border-box;
-    transition: .5s;
+    margin: 5px;
 }
 
 .inputs:focus {
-    outline: 1px solid var(--color-purple1);
-
+    border: 0;
+    outline: 2px solid var(--color-purple);
 }
 
-.radio {
-    display: flex;
-    justify-content: space-evenly;
-    /*MESMO ESPAÇO ENTRE OS ELEMENTOS
-    */
-    font-weight: bold;
-    gap: 20px;
-}
-#nome{
+#nome {
+    width: 100%;
     margin-bottom: 10px;
 }
-.select{
-    width: 200px;
-    padding: 5px;
-    background-color: var(--color-dark1);
-    color: white;
-    border: 0;
-    border-radius: 5px;
-    border-bottom:2px solid var(--color-purple1);
+
+
+/*Selects*/
+
+#selects {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
 }
 
+/*Radios*/
+.radios {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+/*Button*/
+
 button {
-    padding: 20px;
-    font-size: 20px;
-    outline: none;
-    border: none;
-    border-radius: 5px;
-    margin-top: 20px;
-    background-color: var(--color-purple2);
+    background-color: transparent;
     color: var(--color-white);
+    padding: 5px;
+    border: 1px solid var(--color-purple);
+    border-radius: 10px;
     cursor: pointer;
-    transition: .5s;
+    transition: ease-in-out .2s;
 }
 
 button:hover {
-    background-color: var(--color-purple1);
-}
-
-textarea {
-    resize: none;
-}
-
-@media screen and (max-width:763px) {
-    .select {
-        gap: 5px;
-        flex-direction: column;
-    }
-
-    .container {
-        width: 350px;
-    }
-
-}
-
-i {
-    position: absolute;
-    font-size: 25px;
-    cursor: pointer;
-    right: 3%;
-    top: 4px;
-}
-
-div {
-    position: relative;
-}
-#selects{
-    display: flex;
-    justify-content: space-between;
-
+    background-color: var(--color-purple-hover);
 }
