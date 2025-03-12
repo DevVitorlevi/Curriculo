@@ -1,0 +1,159 @@
+:root {
+    --color-white: #fff;
+    --color-red: #e63636;
+    --color-dark1: #181818;
+    --color-dark2: #1e1e1e;
+    --color-purple1: #9333ff;
+    --color-purple2: #4b0082;
+    --color-input: ;
+    --color-input-hover: ;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    background-color: var(--color-dark1);
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--color-white);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    position: relative;
+    background-color: var(--color-dark2);
+    padding: 32px;
+    width: 35%;
+    min-width: 30%;
+    border-radius: 20px;
+}
+#date{
+    position: absolute;
+    top:-35px;
+    right:0;
+    padding: 5px;
+    width: 200px;
+    background-color: var(--color-dark1);
+    color: white;
+    border-radius: 5px;
+    border: 0;
+    border-bottom:2px solid var(--color-purple1);
+}
+#names{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+#name,#cpf{
+    width: 300px;
+}
+h1 {
+    text-align:left;
+}
+
+.container form {
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+}
+
+.span-required {
+    display: none;
+    font-size: 12px;
+    margin: 3px 0 0 1px;
+    color: var(--color-red);
+}
+
+.inputs {
+    color: var(--color-white);
+    background-color: var(--color-dark1);
+    padding: 8px 5px;
+    border-radius:5px ;
+    /*borda do input */
+    border: 0;
+    border-bottom: 2px solid var(--color-purple1);
+    width: 100%;
+    box-sizing: border-box;
+    transition: .5s;
+}
+
+.inputs:focus {
+    outline: 1px solid var(--color-purple1);
+
+}
+
+.radio {
+    display: flex;
+    justify-content: space-evenly;
+    /*MESMO ESPAÇO ENTRE OS ELEMENTOS
+    */
+    font-weight: bold;
+    gap: 20px;
+}
+#nome{
+    margin-bottom: 10px;
+}
+.select{
+    width: 200px;
+    padding: 5px;
+    background-color: var(--color-dark1);
+    color: white;
+    border: 0;
+    border-radius: 5px;
+    border-bottom:2px solid var(--color-purple1);
+}
+
+button {
+    padding: 20px;
+    font-size: 20px;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    margin-top: 20px;
+    background-color: var(--color-purple2);
+    color: var(--color-white);
+    cursor: pointer;
+    transition: .5s;
+}
+
+button:hover {
+    background-color: var(--color-purple1);
+}
+
+textarea {
+    resize: none;
+}
+
+@media screen and (max-width:763px) {
+    .select {
+        gap: 5px;
+        flex-direction: column;
+    }
+
+    .container {
+        width: 350px;
+    }
+
+}
+
+i {
+    position: absolute;
+    font-size: 25px;
+    cursor: pointer;
+    right: 3%;
+    top: 4px;
+}
+
+div {
+    position: relative;
+}
+#selects{
+    display: flex;
+    justify-content: space-between;
+
+}
