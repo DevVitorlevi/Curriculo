@@ -62,6 +62,7 @@ h1 {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 10px;
 }
 
 /*Form*/
@@ -80,17 +81,11 @@ form {
     background-color: var(--color-dark1);
     color: var(--color-white);
     width: 100%;
-    margin: 5px;
 }
 
 .inputs:focus {
     border: 0;
     outline: 2px solid var(--color-purple);
-}
-
-#nome {
-    width: 100%;
-    margin-bottom: 10px;
 }
 
 
@@ -124,4 +119,12 @@ button {
 
 button:hover {
     background-color: var(--color-purple-hover);
+}
+
+/*Span*/
+.span-required {
+    display: none;
+    font-size: 13px;
+    margin-top: 5px;
+    color: red;
 }
