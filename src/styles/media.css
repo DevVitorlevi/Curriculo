@@ -1,0 +1,57 @@
+/* Media Queries */
+
+/* Tablet */
+@media screen and (min-width: 600px) and (max-width:992px) {
+    * {
+        font-size: 24px;
+    }
+
+    h1 {
+        font-size: 32px;
+    }
+
+    form {
+        gap: 20px;
+    }
+
+    .container {
+        width: 80%;
+    }
+
+    #m,
+    #f,
+    #o {
+        width: 18px;
+        height: 18px;
+    }
+
+    .span-required {
+        font-size: 20px;
+    }
+
+}
+
+@media screen and (min-width:992px) and (max-width:1280px) {
+    * {
+        font-size: 28px;
+    }
+
+    form {
+        gap: 20px;
+    }
+
+    h1 {
+        font-size: 36px;
+    }
+
+    #m,
+    #f,
+    #o {
+        width: 20px;
+        height: 20px;
+    }
+
+    .span-required {
+        font-size: 24px;
+    }
+}
