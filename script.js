@@ -32,3 +32,4 @@ inputs[4].addEventListener('input')
 inputs[5].addEventListener('input')
 
 
+console.log(inputs)
