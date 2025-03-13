@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currículo 🔥</title>
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/media.css">
+</head>
+
+<body>
+    <div class="container">
+        <form id="form">
+
+            <!-- Cabeçalho -->
+            <div id="header">
+                <h1>Meu Currículo</h1>
+                <input type="date" id="date">
+            </div>
+
+            <!-- Informações iniciais -->
+            <div id="info">
+                <div>
+                    <input type="text" placeholder="Nome da escola" class="inputs " id="escola">
+                    <label class="span-required">Campo obrigatório</label>
+                </div>
+                <div>
+                    <input type="text" placeholder="CPF" class="inputs" id="cpf" maxlength="14">
+                    <label class="span-required">CPF Inválido</label>
+                </div>
+            </div>
+
+            <!-- Seção pessoal -->
+            <h1>Pessoal</h1>
+
+            <div>
+                <input type="text" placeholder="Nome Completo" class="inputs required" id="nome">
+                <label class="span-required">Campo obrigatório</label>
+            </div>
+
+            <!-- Seções com listas -->
+            <div id="selects">
+
+                <div>
+                    <input list="nacionalidade" class="inputs" placeholder="Nacionalidade">
+                    <datalist id="nacionalidade">
+                        <option value="Brasil">Brasil</option>
+                        <option value="EUA">EUA</option>
+                        <option value="Japão">Japão</option>
+                        <option value="China">China</option>
+                    </datalist>
+                </div>
+
+                <div>
+                    <input list="estado" class="inputs" placeholder="Estado">
+                    <datalist id="estado">
+                        <option value="SP">São Paulo</option>
+                        <option value="Florida">Florida</option>
+                        <option value="Tokyo">Tokyo</option>
+                        <option value="Pequim">Pequim</option>
+                    </datalist>
+                </div>
+
+                <div>
+                    <input list="city" class="inputs" placeholder="Cidade">
+                    <datalist id="city">
+                        <option value="Icapui">Icapui</option>
+                        <option value="New York">New York</option>
+                        <option value="Kyoto">Kyoto</option>
+                        <option value="Shangai">Shangai</option>
+                    </datalist>
+                </div>
+
+            </div>
+
+            <!-- Sexo -->
+            <p>Sexo:</p>
+            <div class="radios">
+
+                <div>
+                    <input type="radio" id="m" name="Sexo" value="m">
+                    <label for="m">Masculino</label>
+                </div>
+
+                <div>
+                    <input type="radio" id="f" name="Sexo" value="f">
+                    <label for="f">Feminino</label>
+                </div>
+
+                <div>
+                    <input type="radio" id="o" name="Sexo" value="o">
+                    <label for="o">Outro</label>
+                </div>
+
+            </div>
+
+            <!-- Botão de envio -->
+            <button type="submit">Enviar</button>
+
+        </form>
+    </div>
+    <script src="script/script.js"></script>
+</body>
+
+</html>
