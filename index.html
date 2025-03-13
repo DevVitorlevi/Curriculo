@@ -20,8 +20,14 @@
 
             <!-- Informações iniciais -->
             <div id="info">
-                <input type="text" placeholder="Nome da escola" class="inputs">
-                <input type="number" placeholder="CPF" class="inputs">
+                <div>
+                    <input type="text" placeholder="Nome da escola" class="inputs">
+                    <label class="span-required">Campo obrigatório</label>
+                </div>
+                <div>
+                    <input type="text" placeholder="CPF" class="inputs">
+                    <label class="span-required">CPF Inválido</label>
+                </div>
             </div>
 
             <!-- Seção pessoal -->
@@ -29,6 +35,7 @@
 
             <div>
                 <input type="text" placeholder="Nome Completo" class="inputs required" id="nome">
+                <label class="span-required">Campo obrigatório</label>
             </div>
 
             <!-- Seções com listas -->
@@ -88,10 +95,11 @@
             </div>
 
             <!-- Botão de envio -->
-            <button>Enviar</button>
+            <button type="submit">Enviar</button>
 
         </form>
     </div>
+    <script src="script.js"></script>
 </body>
 
 </html>
