@@ -1,7 +1,6 @@
 const form = document.getElementById('form');
 const inputs = document.querySelectorAll('.inputs');
 const spans = document.querySelectorAll('.span-required');
-
 // Impede o envio ao pressionar Enter
 document.addEventListener('keydown', (evt) => {
     if (evt.key == 'Enter') {
@@ -15,8 +14,10 @@ function impedirEnvio(ev) {
     ev.preventDefault();
     ValidarEscola();
     ValidarCPF();
-
     ValidarNome();
+    ValidarNacionalidade()
+    ValidarEstado()
+    ValidarCidade()
 }
 
 // Função para mostrar erro
@@ -60,9 +61,9 @@ inputs[1].addEventListener('input', () => {
 function ValidarCPF() {
     const cpf = inputs[1].value.replace(/\D/g, ''); // Remove os caracteres não numéricos
     if (cpf.length !== 11) {
-        CasoError(1); // Caso o CPF não tenha 11 números
+        CasoError(1);
     } else {
-        NotError(1); // Caso o CPF tenha 11 números
+        NotError(1);
     }
 }
 
@@ -73,5 +74,34 @@ function ValidarNome() {
         CasoError(2);
     } else {
         NotError(2);
+    }
+}
+
+//Validar Nacionalidade
+inputs[3].addEventListener('input',ValidarNacionalidade);
+function ValidarNacionalidade() {
+    if (inputs[3].value == '') {
+        CasoError(3);
+    } else {
+        NotError(3);
+    }
+}
+
+//Validar Estado
+inputs[4].addEventListener('input',ValidarEstado);
+function ValidarEstado() {
+    if (inputs[4].value == '') {
+        CasoError(4);
+    } else {
+        NotError(4);
+    }
+}
+//Validar Cidade
+inputs[5].addEventListener('input',ValidarCidade);
+function ValidarCidade() {
+    if (inputs[5].value == '') {
+        CasoError(5);
+    } else {
+        NotError(5);
     }
 }

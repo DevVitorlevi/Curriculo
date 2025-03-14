@@ -1,0 +1,10 @@
+{
+    "workbench.editor.showTabs": "multiple",
+    "workbench.editor.pinnedTabsOnSeparateRow": false,
+    "workbench.editor.wrapTabs": false,
+    "workbench.editor.doubleClickTabToToggleEditorGroupSizes": "expand",
+    "workbench.editor.enablePreviewFromQuickOpen": false,
+    "workbench.editor.enablePreviewFromCodeNavigation": false,
+    "workbench.editor.highlightModifiedTabs": false,
+    "workbench.editor.scrollToSwitchTabs": false
+}
