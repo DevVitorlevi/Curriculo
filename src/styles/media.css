@@ -44,6 +44,11 @@
         font-size: 36px;
     }
 
+    #escola,
+    #cpf {
+        width: 40vw;
+    }
+
     #m,
     #f,
     #o {
@@ -53,5 +58,40 @@
 
     .span-required {
         font-size: 24px;
+    }
+}
+
+/* Desktop */
+@media screen and (min-width:1280px) {
+    * {
+        font-size: 32px;
+    }
+
+    .container {
+        width: 60%;
+    }
+
+    #escola,
+    #cpf {
+        width: 25vw;
+    }
+
+    form {
+        gap: 20px;
+    }
+
+    h1 {
+        font-size: 40px;
+    }
+
+    .span-required {
+        font-size: 24px;
+    }
+
+    #m,
+    #f,
+    #o {
+        width: 24px;
+        height: 24px;
     }
 }
