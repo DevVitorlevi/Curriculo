@@ -16,49 +16,55 @@
             <!-- Cabeçalho -->
             <div id="header">
                 <h1>Meu Currículo</h1>
-                <input type="date" id="date">
+                <input type="date" id="date" required>
             </div>
 
             <!-- Informações iniciais -->
             <div id="info">
-                <div>
-                    <input type="text" placeholder="Nome da escola" class="inputs " id="escola">
-                    <label class="span-required">Campo obrigatório</label>
+                <div class="input-div">
+                    <input type="text" class="inputs " id="escola" required>
+                    <label id="placeholder">Nome da Escola</label>
+                    <span class="span-required">Campo obrigatório</span>
                 </div>
-                <div>
-                    <input type="text" placeholder="CPF" class="inputs" id="cpf" maxlength="14">
-                    <label class="span-required">CPF Inválido</label>
+                <div class="input-div">
+                    <input type="text" class="inputs" id="cpf" maxlength="14" required>
+                    <label id="placeholder">CPF </label>
+                    <span class="span-required">CPF Inválido</span>
                 </div>
             </div>
 
             <!-- Seção pessoal -->
             <h1>Pessoal</h1>
 
-            <div>
-                <input type="text" placeholder="Nome Completo" class="inputs required" id="nome">
-                <label class="span-required">Campo obrigatório</label>
+            <div class="input-div">
+                <input type="text" class="inputs required" id="nome" required>
+                <label id="placeholder">Nome Completo</label>
+                <span class="span-required">Campo obrigatório</span>
             </div>
 
             <!-- Seções com listas -->
             <div id="selects">
                 <!-- Nacionalidade -->
-                <div>
-                    <input list="nacionalidade" id="nacionalidadeInput" class="inputs" placeholder="Nacionalidade">
-                    <span class="span-required">Campo obrigatório</span>
+                <div class="input-div">
+                    <input list="nacionalidade" id="nacionalidadeInput" class="inputs" required>
+                    <span class="span-required">Nacionalidade Inválida</span>
+                    <label id="placeholder">Nacionalidade</label>
                     <datalist id="nacionalidade"></datalist>
                 </div>
 
                 <!-- Estado -->
-                <div>
-                    <input list="estado" id="estadoInput" class="inputs" placeholder="Estado">
-                    <span class="span-required">Campo obrigatório</span>
+                <div class="input-div">
+                    <input list="estado" required id="estadoInput" class="inputs">
+                    <label id="placeholder">Estado</label>
+                    <span class="span-required">Estado Inválido</span>
                     <datalist id="estado"></datalist>
                 </div>
 
                 <!-- Cidade -->
-                <div>
-                    <input list="city" id="cidadeInput" class="inputs" placeholder="Cidade">
-                    <span class="span-required">Campo obrigatório</span>
+                <div class="input-div">
+                    <input list="city" id="cidadeInput" class="inputs" required>
+                    <label id="placeholder">Cidade</label>
+                    <span class="span-required">Cidade Inválida</span>
                     <datalist id="city"></datalist>
                 </div>
             </div>
@@ -89,6 +95,7 @@
 
         </form>
     </div>
+    <div id="toast" class="toast hidden"></div>
     <script src="script/script.js"></script>
 </body>
 

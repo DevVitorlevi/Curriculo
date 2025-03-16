@@ -75,7 +75,12 @@ form {
     display: flex;
     flex-direction: column;
     width: 100%;
-    gap: 10px;
+    gap: 20px;
+}
+
+.input-div {
+    position: relative;
+
 }
 
 .inputs {
@@ -86,6 +91,9 @@ form {
     background-color: var(--color-dark1);
     color: var(--color-white);
     width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .inputs:focus {
@@ -93,7 +101,26 @@ form {
     outline: 2px solid var(--color-purple);
 }
 
+#placeholder {
+    position: absolute;
+    max-width: 90%;
+    top: 8px;
+    left: 10px;
+    transition: ease-in-out .2s;
+    pointer-events: none;
+    color: rgba(255, 255, 255, 0.3);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
 
+.input-div input:focus~#placeholder,
+.input-div input:valid~#placeholder {
+    top: -20px;
+    left: 5px;
+    font-size: 15px;
+    color: var(--color-white);
+}
 
 /*Selects*/
 
@@ -136,4 +163,28 @@ button:hover {
     color: red;
 }
 
-/*Footer*/
+/* Toast */
+.toast {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    background-color: var(--color-purple-hover);
+    color: #fff;
+    padding: 16px 24px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transform: translatex(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 9999;
+    font-size: 14px;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.toast.hidden {
+    display: none;
+}

@@ -1,15 +1,16 @@
-
+// Seleção dos elementos principais do formulário
 const form = document.getElementById('form')
 const inputs = document.querySelectorAll('.inputs')
 const spans = document.querySelectorAll('.span-required')
 
-
+// Estrutura de dados de nacionalidades, estados e cidades
+// Essa estrutura é utilizada para validar e popular os campos de seleção do formulário
 const dados = {
     "Brasil": {
         "São Paulo": ["São Paulo", "Campinas", "Santos"],
         "Ceará": ["Fortaleza", "Icapuí", "Sobral"]
     },
-    "Estados Unidos": {
+    "Estados Unidos": { 
         "Florida": ["Miami", "Orlando", "Tampa"],
         "California": ["Los Angeles", "San Francisco", "San Diego"]
     },
@@ -23,80 +24,99 @@ const dados = {
     }
 }
 
+// Inputs de texto que o usuário preenche
 const nacionalidadeInput = document.getElementById('nacionalidadeInput')
 const estadoInput = document.getElementById('estadoInput')
 const cidadeInput = document.getElementById('cidadeInput')
 
-// 🎯 DATALISTS QUE SERÃO PREENCHIDOS DINAMICAMENTE
+// Elementos datalist que fornecem as sugestões de preenchimento
 const nacionalidadeDatalist = document.getElementById('nacionalidade')
 const estadoDatalist = document.getElementById('estado')
 const cidadeDatalist = document.getElementById('city')
 
-//INICIALIZA O PREENCHIMENTO DOS PAÍSES NO DATALIST AO CARREGAR
+// Popula o datalist de nacionalidades quando a página é carregada
 preencherNacionalidades()
 
-// IMPEDIR ENVIO DO FORMULÁRIO QUANDO PRESSIONAR ENTER
+// Impede que o usuário envie o formulário pressionando a tecla Enter
 document.addEventListener('keydown', (evt) => {
     if (evt.key == 'Enter') {
         impedirEnvio(evt)
     }
-});
+})
 
-//IMPEDIR ENVIO QUANDO CLICAR NO BOTÃO SUBMIT
+// Impede envio do formulário ao clicar no botão Submit e chama as validações
 form.addEventListener('submit', impedirEnvio)
 
-// FUNÇÃO PRINCIPAL PARA IMPEDIR ENVIO DO FORMULÁRIO E VALIDAR TODOS OS CAMPOS
+// Função principal para bloquear o envio e validar todos os campos obrigatórios
 function impedirEnvio(ev) {
-    ev.preventDefault() // Impede o envio padrão do formulário
-    ValidarEscola()        
-    ValidarCPF()               
-    ValidarNome()                
-    ValidarNacionalidade()      
-    ValidarEstado()            
-    ValidarCidade()             
+    ev.preventDefault()
+    ValidarEscola()
+    ValidarCPF()
+    ValidarNome()
+    ValidarNacionalidade()
+    ValidarEstado()
+    ValidarCidade()
 }
 
-//FUNÇÃO QUE MOSTRA ERRO (BORDER VERMELHA E SPAN)
+// Exibe feedback visual de erro nos inputs e mensagens de aviso
 function CasoError(indice) {
-    inputs[indice].style.border = '2px solid #e63636'   
-    spans[indice].style.display = 'block'
+    inputs[indice].style.border = '2px solid #e63636' // Borda vermelha indica erro
+    spans[indice].style.display = 'block' // Exibe a mensagem de erro associada
 }
 
-//FUNÇÃO QUE REMOVE O ERRO
+// Remove o feedback de erro quando o campo está correto
 function NotError(indice) {
-    inputs[indice].style.border = ''      
-    spans[indice].style.display = 'none'
+    inputs[indice].style.border = '2px solid #9333ff' // Borda roxa padrão
+    spans[indice].style.display = 'none' // Oculta a mensagem de erro
 }
-// ----------------- VALIDAÇÕES INDIVIDUAIS -----------------
 
-//VALIDAÇÃO DA ESCOLA (INDEX 0 NO ARRAY INPUTS)
-inputs[0].addEventListener('input', ValidarEscola);
+// Exibe uma notificação toast com mensagens de erro dinâmicas
+function exibirToast(mensagem) {
+    const toast = document.getElementById('toast')
+
+    toast.textContent = mensagem
+    toast.classList.remove('hidden')
+    toast.classList.add('show')
+
+    // Remove a notificação após 3 segundos
+    setTimeout(() => {
+        toast.classList.remove('show')
+        setTimeout(() => {
+            toast.classList.add('hidden')
+        }, 300)
+    }, 3000)
+}
+
+// ==================== Validações de campos ==================== //
+
+// Validação simples de campo obrigatório para o campo Escola
+inputs[0].addEventListener('input', ValidarEscola)
 function ValidarEscola() {
     if (inputs[0].value === '') {
-        CasoError(0)       
+        CasoError(0)
     } else {
         NotError(0)
     }
 }
 
-// APLICA MÁSCARA E VALIDAÇÃO DE CPF (INDEX 1)
+// CPF com máscara de formatação em tempo real e validação de quantidade de caracteres
 inputs[1].addEventListener('input', () => {
-    inputs[1].value = formatarCPF(inputs[1].value)// Aplica máscara no CPF em tempo real
-    ValidarCPF() // Valida se está no formato correto
-});
+    inputs[1].value = formatarCPF(inputs[1].value)
+    ValidarCPF()
+})
 
-// FORMATA O CPF: 123.456.789-00
+// Função que aplica a máscara no campo de CPF (formato 000.000.000-00)
 function formatarCPF(cpf) {
-    cpf = cpf.replace(/\D/g, '');  cpf.replace(/(\d{3})(\d)/, '$1.$2') // Coloca o primeiro ponto
-    cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2')// Coloca o segundo ponto
-    cpf = cpf.replace(/(\d{3})(\d{1,2})$/, '$1-$2')// Coloca o traço antes dos dois últimos dígitos
-
-    return cpf;
+    cpf = cpf.replace(/\D/g, '') // Remove tudo que não for dígito
+    cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2')
+    cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2')
+    cpf = cpf.replace(/(\d{3})(\d{1,2})$/, '$1-$2')
+    return cpf
 }
 
-// VALIDA SE O CPF TEM 11 DÍGITOS
+// Verifica se o CPF tem 11 dígitos após a formatação (não faz validação matemática ainda)
 function ValidarCPF() {
-    const cpf = inputs[1].value.replace(/\D/g, '') // Remove pontuação pra validar só os números
+    const cpf = inputs[1].value.replace(/\D/g, '')
     if (cpf.length !== 11) {
         CasoError(1)
     } else {
@@ -104,98 +124,153 @@ function ValidarCPF() {
     }
 }
 
-// VALIDAÇÃO DO NOME COMPLETO (INDEX 2)
-inputs[2].addEventListener('input', ValidarNome);
+// Validação simples de campo obrigatório para Nome
+inputs[2].addEventListener('input', ValidarNome)
 function ValidarNome() {
-    if (inputs[2].value === '') {                                  
-        CasoError(2)                                             
+    if (inputs[2].value === '') {
+        CasoError(2)
     } else {
-        NotError(2)                                              
+        NotError(2)
     }
 }
 
-// ----------------- EVENTOS E VALIDAÇÕES PARA CAMPOS DINÂMICOS -----------------
+// ==================== Validações dependentes dos dados ==================== //
 
-// EVENTO AO ESCOLHER/EDITAR NACIONALIDADE
+// Ao alterar a nacionalidade, atualiza estados e valida a nacionalidade
 nacionalidadeInput.addEventListener('input', () => {
-    preencherEstados(nacionalidadeInput.value)                   
-    ValidarNacionalidade()                              
-});
+    preencherEstados(nacionalidadeInput.value)
+    ValidarNacionalidade()
+})
 
-// VALIDA NACIONALIDADE (INDEX 3)
+// Verifica se a nacionalidade digitada existe no objeto dados (case insensitive)
 function ValidarNacionalidade() {
-    if (inputs[3].value === '') {                                  
+    const nacionalidade = buscarChave(dados, nacionalidadeInput.value)
+    if (!nacionalidade) {
         CasoError(3)
+        exibirToast(`O país "${nacionalidadeInput.value}" não está cadastrado!`)
+        estadoDatalist.innerHTML = ''
+        cidadeDatalist.innerHTML = ''
     } else {
         NotError(3)
     }
 }
 
-// EVENTO AO ESCOLHER/EDITAR ESTADO
+// Ao alterar o estado, atualiza cidades e valida o estado
 estadoInput.addEventListener('input', () => {
     preencherCidades(nacionalidadeInput.value, estadoInput.value)
     ValidarEstado()
-});
+})
 
-// VALIDA ESTADO (INDEX 4)
+// Verifica se o estado digitado existe dentro da nacionalidade escolhida (case insensitive)
 function ValidarEstado() {
-    if (inputs[4].value === '') {                                  
-        CasoError(4)                            
+    const nacionalidade = buscarChave(dados, nacionalidadeInput.value)
+    if (!nacionalidade) {
+        CasoError(3)
+        exibirToast(`O país "${nacionalidadeInput.value}" não está cadastrado!`)
+        return
+    }
+
+    const estados = dados[nacionalidade]
+    const estado = buscarChave(estados, estadoInput.value)
+
+    if (!estado) {
+        CasoError(4)
+        exibirToast(`O estado "${estadoInput.value}" não está cadastrado em "${nacionalidade}"!`)
+        cidadeDatalist.innerHTML = ''
     } else {
-        NotError(4)                                               
+        NotError(4)
     }
 }
 
-// 🌆 EVENTO AO ESCOLHER/EDITAR CIDADE
-cidadeInput.addEventListener('input', ValidarCidade);
+// Ao alterar a cidade, valida se ela existe no estado e país selecionados
+cidadeInput.addEventListener('input', ValidarCidade)
 
-// VALIDA CIDADE (INDEX 5)
 function ValidarCidade() {
-    if (inputs[5].value === '') {                                  
-        CasoError(5)                                            
+    const nacionalidade = buscarChave(dados, nacionalidadeInput.value)
+    if (!nacionalidade) {
+        CasoError(3)
+        exibirToast(`O país "${nacionalidadeInput.value}" não está cadastrado!`)
+        return
+    }
+
+    const estados = dados[nacionalidade]
+    const estado = buscarChave(estados, estadoInput.value)
+
+    if (!estado) {
+        CasoError(4)
+        exibirToast(`O estado "${estadoInput.value}" não está cadastrado em "${nacionalidade}"!`)
+        return
+    }
+
+    const cidades = estados[estado]
+
+    // Compara a cidade ignorando letras maiúsculas e minúsculas
+    const cidadeExiste = cidades.some(cidade => cidade.toLowerCase() === cidadeInput.value.toLowerCase())
+
+    if (!cidadeExiste) {
+        CasoError(5)
+        exibirToast(`A cidade "${cidadeInput.value}" não está cadastrada no estado "${estado}"!`)
     } else {
         NotError(5)
     }
 }
 
-// ----------------- FUNÇÕES DE PREENCHIMENTO DOS DATALISTS -----------------
+// ==================== Funções auxiliares ==================== //
 
-// PREENCHE OS PAÍSES DISPONÍVEIS NO DATALIST DE NACIONALIDADE
+// Preenche o datalist com os países disponíveis
 function preencherNacionalidades() {
-    nacionalidadeDatalist.innerHTML = '' // Limpa o datalist antes de adicionar novas opções
+    nacionalidadeDatalist.innerHTML = ''
 
-    Object.keys(dados).forEach(pais => { // Itera sobre todos os países
-        const option = document.createElement('option') // Cria um elemento dinamicamente <option>
-        option.value = pais // Define o valor como o nome do país
-        nacionalidadeDatalist.appendChild(option) // Adiciona ao datalist
-    });
+    Object.keys(dados).forEach(pais => {
+        const option = document.createElement('option')
+        option.value = pais
+        nacionalidadeDatalist.appendChild(option)
+    })
 }
 
-// PREENCHE OS ESTADOS COM BASE NO PAÍS SELECIONADO
+// Preenche o datalist com os estados correspondentes ao país selecionado
 function preencherEstados(paisSelecionado) {
-    estadoDatalist.innerHTML = '' // Limpa o datalist de estados
-    cidadeDatalist.innerHTML = ''// Limpa o datalist de cidades
+    estadoDatalist.innerHTML = ''
+    cidadeDatalist.innerHTML = ''
 
-    if (dados[paisSelecionado]) { // Verifica se o país existe no objeto
-        const estados = Object.keys(dados[paisSelecionado]) // Pega os estados daquele país 
-        estados.forEach(estado => { // Itera sobre cada estado
-            const option = document.createElement('option') /// Cria um elemento dinamicamente <option>
-            option.value = estado // Define o valor como o nome do estado
-            estadoDatalist.appendChild(option) // Adiciona ao datalist de estados
-        });
+    const nacionalidade = buscarChave(dados, paisSelecionado)
+
+    if (nacionalidade) {
+        const estados = Object.keys(dados[nacionalidade])
+        estados.forEach(estado => {
+            const option = document.createElement('option')
+            option.value = estado
+            estadoDatalist.appendChild(option)
+        })
     }
 }
 
-// 🌆 PREENCHE AS CIDADES COM BASE NO ESTADO E PAÍS SELECIONADOS
+// Preenche o datalist com as cidades correspondentes ao estado e país selecionados
 function preencherCidades(paisSelecionado, estadoSelecionado) {
-    cidadeDatalist.innerHTML = '';                                 // Limpa o datalist de cidades
+    cidadeDatalist.innerHTML = ''
 
-    if (dados[paisSelecionado] && dados[paisSelecionado][estadoSelecionado]) {  // Verifica se o país e o estado existem
-        const cidades = dados[paisSelecionado][estadoSelecionado] // Pega as cidades daquele estado
-        cidades.forEach(cidade => { // Itera sobre cada cidade
-            const option = document.createElement('option')// Cria um elemento dinamicamente <option>
-            option.value = cidade // Define o valor como o nome da cidade
-            cidadeDatalist.appendChild(option) // Adiciona ao datalist de cidades
-        });
+    const nacionalidade = buscarChave(dados, paisSelecionado)
+
+    if (nacionalidade) {
+        const estados = dados[nacionalidade]
+        const estado = buscarChave(estados, estadoSelecionado)
+
+        if (estado) {
+            const cidades = estados[estado]
+            cidades.forEach(cidade => {
+                const option = document.createElement('option')
+                option.value = cidade
+                cidadeDatalist.appendChild(option)
+            })
+        }
     }
+}
+
+// Busca uma chave dentro de um objeto sem considerar letras maiúsculas/minúsculas
+// Exemplo: permite que "brasil", "BRASIL" ou "Brasil" sejam interpretados corretamente
+function buscarChave(obj, chave) {
+    const entrada = chave.toLowerCase()
+
+    // Retorna a chave original do objeto que corresponde à entrada fornecida
+    return Object.keys(obj).find(k => k.toLowerCase() === entrada)
 }
