@@ -11,11 +11,21 @@
     }
 
     form {
-        gap: 20px;
+        gap: 30px;
     }
 
     .container {
         width: 80%;
+    }
+
+    #placeholder {
+        font-size: 24px;
+    }
+
+    .input-div input:focus~#placeholder,
+    .input-div input:valid~#placeholder {
+        font-size: 18px;
+        top: -22px;
     }
 
     #m,
@@ -37,7 +47,7 @@
     }
 
     form {
-        gap: 20px;
+        gap: 30px;
     }
 
     h1 {
@@ -47,6 +57,16 @@
     #escola,
     #cpf {
         width: 40vw;
+    }
+
+    #placeholder {
+        font-size: 24px;
+    }
+
+    .input-div input:focus~#placeholder,
+    .input-div input:valid~#placeholder {
+        font-size: 24px;
+        top: -28px;
     }
 
     #m,
@@ -68,7 +88,7 @@
     }
 
     .container {
-        width: 60%;
+        width: 65%;
     }
 
     #escola,
@@ -77,7 +97,7 @@
     }
 
     form {
-        gap: 20px;
+        gap: 30px;
     }
 
     h1 {
@@ -86,6 +106,13 @@
 
     .span-required {
         font-size: 24px;
+    }
+
+
+    .input-div input:focus~#placeholder,
+    .input-div input:valid~#placeholder {
+        font-size: 24px;
+        top: -30px;
     }
 
     #m,
