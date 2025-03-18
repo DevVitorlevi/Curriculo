@@ -1,43 +1,72 @@
+// =======================
+// URL da API de países
+// =======================
+const paisesAPI = 'https://raw.githubusercontent.com/juliolvfilho/lista-paises/refs/heads/master/paises-array.json'
+
+// =======================
+// Variável para armazenar os dados da API de países
+// =======================
+let paises = []
+
+// =======================
 // Seleção dos elementos principais do formulário
+// =======================
 const form = document.getElementById('form')
 const inputs = document.querySelectorAll('.inputs')
 const spans = document.querySelectorAll('.span-required')
 
-// Estrutura de dados de nacionalidades, estados e cidades
-// Essa estrutura é utilizada para validar e popular os campos de seleção do formulário
-const dados = {
-    "Brasil": {
-        "São Paulo": ["São Paulo", "Campinas", "Santos"],
-        "Ceará": ["Fortaleza", "Icapuí", "Sobral"]
-    },
-    "Estados Unidos": { 
-        "Florida": ["Miami", "Orlando", "Tampa"],
-        "California": ["Los Angeles", "San Francisco", "San Diego"]
-    },
-    "Portugal": {
-        "Lisboa": ["Lisboa", "Cascais", "Sintra"],
-        "Porto": ["Porto", "Braga", "Guimarães"]
-    },
-    "China": {
-        "Pequim": ["Pequim"],
-        "Xangai": ["Xangai", "Suzhou", "Hangzhou"]
-    }
-}
-
+// =======================
 // Inputs de texto que o usuário preenche
+// =======================
 const nacionalidadeInput = document.getElementById('nacionalidadeInput')
 const estadoInput = document.getElementById('estadoInput')
 const cidadeInput = document.getElementById('cidadeInput')
 
+// =======================
 // Elementos datalist que fornecem as sugestões de preenchimento
+// =======================
 const nacionalidadeDatalist = document.getElementById('nacionalidade')
 const estadoDatalist = document.getElementById('estado')
 const cidadeDatalist = document.getElementById('city')
 
-// Popula o datalist de nacionalidades quando a página é carregada
-preencherNacionalidades()
+/**
+ * Função assíncrona para carregar os dados da API de países.
+ * Após o carregamento dos dados, chama a função para preencher o datalist de nacionalidades.
+ */
+async function carregarDados() {
+    try {
+        const responsePaises = await fetch(paisesAPI)
+        paises = await responsePaises.json()
 
-// Impede que o usuário envie o formulário pressionando a tecla Enter
+        preencherNacionalidades()
+    } catch (error) {
+        console.error('Erro ao carregar dados da API de países:', error)
+    }
+}
+
+/**
+ * Preenche o datalist de nacionalidades com os países obtidos da API.
+ */
+function preencherNacionalidades() {
+    // Limpa o conteúdo anterior do datalist
+    nacionalidadeDatalist.innerHTML = ''
+
+    // Percorre o array de países, criando uma option para cada um
+    paises.forEach(pais => {
+        const option = document.createElement('option')
+        option.value = pais.nome // Usa o campo "nome" do JSON de países
+        nacionalidadeDatalist.appendChild(option)
+    })
+}
+
+// =======================
+// EVENT LISTENERS
+// =======================
+
+// Valida a nacionalidade ao digitar no campo correspondente
+nacionalidadeInput.addEventListener('input', ValidarNacionalidade)
+
+// Impede o envio do formulário ao pressionar a tecla Enter
 document.addEventListener('keydown', (evt) => {
     if (evt.key == 'Enter') {
         impedirEnvio(evt)
@@ -47,9 +76,28 @@ document.addEventListener('keydown', (evt) => {
 // Impede envio do formulário ao clicar no botão Submit e chama as validações
 form.addEventListener('submit', impedirEnvio)
 
-// Função principal para bloquear o envio e validar todos os campos obrigatórios
+/**
+ * Valida se a nacionalidade digitada pelo usuário existe na lista de países da API.
+ * Caso não exista, exibe um erro visual e uma mensagem via toast.
+ */
+function ValidarNacionalidade() {
+    const nacionalidade = paises.find(pais => pais.nome.toLowerCase() === nacionalidadeInput.value.toLowerCase())
+
+    if (!nacionalidade) {
+        CasoError(3)
+        exibirToast(`O país "${nacionalidadeInput.value}" não está cadastrado!`)
+    } else {
+        NotError(3)
+    }
+}
+
+/**
+ * Função principal para impedir o envio do formulário,
+ * validando todos os campos obrigatórios antes de liberar a submissão.
+ */
 function impedirEnvio(ev) {
     ev.preventDefault()
+
     ValidarEscola()
     ValidarCPF()
     ValidarNome()
@@ -58,19 +106,33 @@ function impedirEnvio(ev) {
     ValidarCidade()
 }
 
-// Exibe feedback visual de erro nos inputs e mensagens de aviso
+// =======================
+// FUNÇÕES DE FEEDBACK VISUAL
+// =======================
+
+/**
+ * Aplica o estilo de erro ao campo indicado, alterando a borda e exibindo a mensagem.
+ * @param {number} indice - Índice do campo dentro da NodeList `inputs` e `spans`.
+ */
 function CasoError(indice) {
-    inputs[indice].style.border = '2px solid #e63636' // Borda vermelha indica erro
+    inputs[indice].style.border = '2px solid #e63636' // Borda vermelha para indicar erro
     spans[indice].style.display = 'block' // Exibe a mensagem de erro associada
 }
 
-// Remove o feedback de erro quando o campo está correto
+/**
+ * Remove o estilo de erro do campo indicado, retornando ao estado normal.
+ * @param {number} indice - Índice do campo dentro da NodeList `inputs` e `spans`.
+ */
 function NotError(indice) {
     inputs[indice].style.border = '2px solid #9333ff' // Borda roxa padrão
     spans[indice].style.display = 'none' // Oculta a mensagem de erro
 }
 
-// Exibe uma notificação toast com mensagens de erro dinâmicas
+/**
+ * Exibe uma notificação toast com a mensagem informada.
+ * A notificação desaparece automaticamente após 3 segundos.
+ * @param {string} mensagem - Mensagem de erro que será exibida no toast.
+ */
 function exibirToast(mensagem) {
     const toast = document.getElementById('toast')
 
@@ -78,18 +140,21 @@ function exibirToast(mensagem) {
     toast.classList.remove('hidden')
     toast.classList.add('show')
 
-    // Remove a notificação após 3 segundos
+    // Oculta a notificação após o tempo determinado
     setTimeout(() => {
         toast.classList.remove('show')
+
         setTimeout(() => {
             toast.classList.add('hidden')
         }, 300)
     }, 3000)
 }
 
-// ==================== Validações de campos ==================== //
+// =======================
+// FUNÇÕES DE VALIDAÇÃO DOS CAMPOS
+// =======================
 
-// Validação simples de campo obrigatório para o campo Escola
+// Valida se o campo "Nome da Escola" está preenchido
 inputs[0].addEventListener('input', ValidarEscola)
 function ValidarEscola() {
     if (inputs[0].value === '') {
@@ -99,13 +164,17 @@ function ValidarEscola() {
     }
 }
 
-// CPF com máscara de formatação em tempo real e validação de quantidade de caracteres
+// Valida se o campo CPF está com o número correto de caracteres após a formatação
 inputs[1].addEventListener('input', () => {
     inputs[1].value = formatarCPF(inputs[1].value)
     ValidarCPF()
 })
 
-// Função que aplica a máscara no campo de CPF (formato 000.000.000-00)
+/**
+ * Aplica a máscara de CPF no formato 000.000.000-00 durante a digitação.
+ * @param {string} cpf - CPF digitado pelo usuário.
+ * @returns {string} CPF formatado.
+ */
 function formatarCPF(cpf) {
     cpf = cpf.replace(/\D/g, '') // Remove tudo que não for dígito
     cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2')
@@ -114,9 +183,11 @@ function formatarCPF(cpf) {
     return cpf
 }
 
-// Verifica se o CPF tem 11 dígitos após a formatação (não faz validação matemática ainda)
+/**
+ * Valida se o CPF possui 11 dígitos após a remoção da máscara.
+ */
 function ValidarCPF() {
-    const cpf = inputs[1].value.replace(/\D/g, '')
+    const cpf = inputs[1].value.replace(/\D/g, '') // Remove a máscara para validação
     if (cpf.length !== 11) {
         CasoError(1)
     } else {
@@ -124,7 +195,7 @@ function ValidarCPF() {
     }
 }
 
-// Validação simples de campo obrigatório para Nome
+// Valida se o campo Nome está preenchido
 inputs[2].addEventListener('input', ValidarNome)
 function ValidarNome() {
     if (inputs[2].value === '') {
@@ -134,143 +205,31 @@ function ValidarNome() {
     }
 }
 
-// ==================== Validações dependentes dos dados ==================== //
-
-// Ao alterar a nacionalidade, atualiza estados e valida a nacionalidade
-nacionalidadeInput.addEventListener('input', () => {
-    preencherEstados(nacionalidadeInput.value)
-    ValidarNacionalidade()
-})
-
-// Verifica se a nacionalidade digitada existe no objeto dados (case insensitive)
-function ValidarNacionalidade() {
-    const nacionalidade = buscarChave(dados, nacionalidadeInput.value)
-    if (!nacionalidade) {
-        CasoError(3)
-        exibirToast(`O país "${nacionalidadeInput.value}" não está cadastrado!`)
-        estadoDatalist.innerHTML = ''
-        cidadeDatalist.innerHTML = ''
-    } else {
-        NotError(3)
-    }
-}
-
-// Ao alterar o estado, atualiza cidades e valida o estado
-estadoInput.addEventListener('input', () => {
-    preencherCidades(nacionalidadeInput.value, estadoInput.value)
-    ValidarEstado()
-})
-
-// Verifica se o estado digitado existe dentro da nacionalidade escolhida (case insensitive)
-function ValidarEstado() {
-    const nacionalidade = buscarChave(dados, nacionalidadeInput.value)
-    if (!nacionalidade) {
-        CasoError(3)
-        exibirToast(`O país "${nacionalidadeInput.value}" não está cadastrado!`)
-        return
-    }
-
-    const estados = dados[nacionalidade]
-    const estado = buscarChave(estados, estadoInput.value)
-
-    if (!estado) {
+// Valida se o campo Cidade está preenchido
+inputs[4].addEventListener('input', ValidarCidade)
+function ValidarCidade() {
+    if (inputs[4].value === '') {
         CasoError(4)
-        exibirToast(`O estado "${estadoInput.value}" não está cadastrado em "${nacionalidade}"!`)
-        cidadeDatalist.innerHTML = ''
     } else {
         NotError(4)
     }
 }
 
-// Ao alterar a cidade, valida se ela existe no estado e país selecionados
-cidadeInput.addEventListener('input', ValidarCidade)
-
-function ValidarCidade() {
-    const nacionalidade = buscarChave(dados, nacionalidadeInput.value)
-    if (!nacionalidade) {
-        CasoError(3)
-        exibirToast(`O país "${nacionalidadeInput.value}" não está cadastrado!`)
-        return
-    }
-
-    const estados = dados[nacionalidade]
-    const estado = buscarChave(estados, estadoInput.value)
-
-    if (!estado) {
-        CasoError(4)
-        exibirToast(`O estado "${estadoInput.value}" não está cadastrado em "${nacionalidade}"!`)
-        return
-    }
-
-    const cidades = estados[estado]
-
-    // Compara a cidade ignorando letras maiúsculas e minúsculas
-    const cidadeExiste = cidades.some(cidade => cidade.toLowerCase() === cidadeInput.value.toLowerCase())
-
-    if (!cidadeExiste) {
+// Valida se o campo Estado está preenchido
+inputs[5].addEventListener('input', ValidarEstado)
+function ValidarEstado() {
+    if (inputs[5].value === '') {
         CasoError(5)
-        exibirToast(`A cidade "${cidadeInput.value}" não está cadastrada no estado "${estado}"!`)
     } else {
         NotError(5)
     }
 }
 
-// ==================== Funções auxiliares ==================== //
+// =======================
+// INICIALIZAÇÃO AO CARREGAR A PÁGINA
+// =======================
 
-// Preenche o datalist com os países disponíveis
-function preencherNacionalidades() {
-    nacionalidadeDatalist.innerHTML = ''
-
-    Object.keys(dados).forEach(pais => {
-        const option = document.createElement('option')
-        option.value = pais
-        nacionalidadeDatalist.appendChild(option)
-    })
-}
-
-// Preenche o datalist com os estados correspondentes ao país selecionado
-function preencherEstados(paisSelecionado) {
-    estadoDatalist.innerHTML = ''
-    cidadeDatalist.innerHTML = ''
-
-    const nacionalidade = buscarChave(dados, paisSelecionado)
-
-    if (nacionalidade) {
-        const estados = Object.keys(dados[nacionalidade])
-        estados.forEach(estado => {
-            const option = document.createElement('option')
-            option.value = estado
-            estadoDatalist.appendChild(option)
-        })
-    }
-}
-
-// Preenche o datalist com as cidades correspondentes ao estado e país selecionados
-function preencherCidades(paisSelecionado, estadoSelecionado) {
-    cidadeDatalist.innerHTML = ''
-
-    const nacionalidade = buscarChave(dados, paisSelecionado)
-
-    if (nacionalidade) {
-        const estados = dados[nacionalidade]
-        const estado = buscarChave(estados, estadoSelecionado)
-
-        if (estado) {
-            const cidades = estados[estado]
-            cidades.forEach(cidade => {
-                const option = document.createElement('option')
-                option.value = cidade
-                cidadeDatalist.appendChild(option)
-            })
-        }
-    }
-}
-
-// Busca uma chave dentro de um objeto sem considerar letras maiúsculas/minúsculas
-// Exemplo: permite que "brasil", "BRASIL" ou "Brasil" sejam interpretados corretamente
-function buscarChave(obj, chave) {
-    const entrada = chave.toLowerCase()
-
-    // Retorna a chave original do objeto que corresponde à entrada fornecida
-    return Object.keys(obj).find(k => k.toLowerCase() === entrada)
-}
+/**
+ * Quando o conteúdo da página for carregado, inicia o carregamento dos dados da API.
+ */
+document.addEventListener('DOMContentLoaded', carregarDados)
