@@ -139,6 +139,12 @@ form {
     justify-content: space-evenly;
 }
 
+#m,
+#f,
+#o {
+    accent-color: var(--color-purple-hover);
+}
+
 /*Button*/
 
 button {
